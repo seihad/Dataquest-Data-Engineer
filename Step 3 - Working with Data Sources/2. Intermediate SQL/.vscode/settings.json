@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "driver": "SQLite",
+            "name": "jobs",
+            "database": "${workspaceFolder:2. Intermediate SQL}/jobs.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
