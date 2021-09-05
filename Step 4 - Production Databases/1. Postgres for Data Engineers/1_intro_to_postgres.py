@@ -9,10 +9,11 @@
 3. Interacting with the database
 '''
 # import psycopg2
-# conn = psycopg2.connect("dbname=dq user=dq")
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
 # cur = conn.cursor()
 # cur.execute("SELECT * FROM users")
 # users = cur.fetchall()
+# print(users)
 # conn.close()
 
 '''
@@ -81,3 +82,31 @@
 # cur2.execute("SELECT * FROM users;")
 # view2_after = cur2.fetchall()
 # print(view2_after)
+
+'''
+9. Insterting Data into a Table
+'''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute(
+# "INSERT INTO users VALUES(%s, %s, %s, %s);", (2, "hello@dataquest.io", "John", "123, Fake Street")    
+# )
+# conn.commit()
+# conn.close()
+
+'''
+10.Copying the data
+'''
+import psycopg2
+import csv
+conn = psycopg2.connect("dbname=dq user=dq password=dq")
+cur = conn.cursor()
+with open('user_accounts.csv', 'r') as file:
+    next(file) # skip csv header (first row with column titles)
+    reader = csv.reader(file)
+    for row in reader:
+        cur.execute("INSERT INTO users VALUES(%s, %s, %s, %s);", row)
+        
+conn.commit()
+conn.close()
