@@ -61,6 +61,169 @@
 '''
 5.Float-like Types
 '''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute("""
+# ALTER TABLE ign_reviews
+# ALTER COLUMN score TYPE DECIMAL (3,1)
+# """)
+# conn.commit()
+# conn.close()
+
+'''
+6.Finding the Max Length
+'''
+# import csv
+# with open('ign.csv', 'r') as f:
+#     next(f) # skip the row containing column headers
+#     reader = csv.reader(f)
+#     # create a set to contain all score phrases
+#     unique_words_in_score_phrase = set()
+#     for row in reader:
+#         # add the score phrase from this row to the set
+#         score_phrase = row[1]
+#         unique_words_in_score_phrase.add(score_phrase)
+# max_len = 0
+# for score_phrase in unique_words_in_score_phrase:
+#     max_len = max(max_len, len(score_phrase))
+# print(max_len)
+
+
+'''
+7.Max String-like Datatypes
+'''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute("""
+# ALTER TABLE ign_reviews
+# ALTER COLUMN score_phrase TYPE varchar(11)
+# """)
+# conn.commit()
+# conn.close()
+
+'''
+8.Enumerated Datatypes
+'''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute("""
+#     CREATE TYPE evaluation_enum AS ENUM (
+#     'Great',       'Mediocre', 'Bad', 
+#     'Good',        'Awful',    'Okay', 
+#     'Masterpiece', 'Amazing',  'Unbearable', 
+#     'Disaster',    'Painful');
+# """)
+# # add your code below this comment
+# cur.execute("""
+# ALTER TABLE ign_reviews
+# ALTER COLUMN score_phrase TYPE evaluation_enum
+# USING CAST (score_phrase AS evaluation_enum);
+# """)
+# conn.commit()
+# conn.close()
+
+'''
+9.Understanding Enumerated Datatypes
+'''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute("""
+#     CREATE TYPE genre_enum AS ENUM (
+#     'Adventure', 'Strategy', 'Shooter', 'genre', 'Virtual Pet', 'Hardware', 'Adult', 'Baseball', 
+#     'Sports', 'Flight', 'Unknown', 'Racing', 'Battle', 'Fighting', 'Simulation', 'Party', 'Card', 
+#     'Productivity', 'Puzzle', 'Educational', 'Casino', 'RPG', 'Board', 'Other', 'Pinball', 'Platformer', 
+#     'Hunting', 'Action', 'Music', 'Compilation', 'Wrestling', 'Trivia');
+# """)
+# cur.execute("""
+#     CREATE TYPE platform_enum AS ENUM (
+#     'PC', 'Game Boy', 'Sega CD', 'Saturn', 'DVD / HD Video Game', 'Nintendo DSi', 
+#     'Arcade', 'Wii U', 'Lynx', 'Super NES', 'WonderSwan Color', 'TurboGrafx-CD', 
+#     'Windows Phone', 'TurboGrafx-16', 'N-Gage', 'Xbox One', 'Atari 2600', 
+#     'Pocket PC', 'Vectrex', 'Nintendo DS', 'Wireless', 'Ouya', 'Nintendo 64DD', 
+#     'Atari 5200', 'PlayStation 4', 'GameCube', 'Android', 'Wii', 'Game Boy Color', 
+#     'PlayStation 2', 'New Nintendo 3DS', 'Linux', 'Dreamcast VMU', 'Game Boy Advance', 
+#     'Windows Surface', 'Genesis', 'Xbox 360', 'Macintosh', 'Web Games', 'Nintendo 3DS', 'iPhone', 
+#     'SteamOS', 'Commodore 64/128', 'Dreamcast', 'PlayStation 3', 'NES', 'NeoGeo Pocket Color', 
+#     'Game.Com', 'PlayStation Portable', 'Master System', 'Sega 32X', 'NeoGeo', 'WonderSwan', 'iPad', 
+#     'Nintendo 64', 'PlayStation Vita', 'Xbox', 'iPod', 'PlayStation');
+# """)
+# # add your code below
+# cur.execute("""
+#     ALTER TABLE ign_reviews 
+#     ALTER COLUMN platform TYPE platform_enum 
+#     USING platform::platform_enum;
+# """)
+# cur.execute("""
+#     ALTER TABLE ign_reviews
+#     ALTER COLUMN genre TYPE genre_enum
+#     USING genre::genre_enum;
+# """)
+# cur.execute("""
+#     ALTER TABLE ign_reviews
+#     ALTER COLUMN title TYPE varchar(200);
+# """)
+# cur.execute("""
+#     ALTER TABLE ign_reviews 
+#     ALTER COLUMN url TYPE varchar(200);
+# """)
+# conn.commit()
+# conn.close()
+
+
+'''
+10. Boolean Types
+'''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute("""
+# ALTER TABLE ign_reviews
+# ALTER COLUMN editors_choice TYPE boolean
+# USING editors_choice::boolean
+# """)
+# conn.commit()
+# conn.close()
+
+'''
+11.Date Type
+'''
+# import psycopg2
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# cur.execute("ALTER TABLE ign_reviews ADD COLUMN release_date date;")
+# cur.execute("ALTER TABLE ign_reviews DROP COLUMN release_year;")
+# cur.execute("ALTER TABLE ign_reviews DROP COLUMN release_month;")
+# cur.execute("ALTER TABLE ign_reviews DROP COLUMN release_day;")
+# conn.commit()
+# conn.close()
+
+
+'''
+12.Loading the Data
+'''
+import datetime
 import psycopg2
-conn = psycopg2.connect("dbname=dq user=dq")
+import csv
+conn = psycopg2.connect("dbname=dq user=dq password=dq")
 cur = conn.cursor()
+with open('ign.csv', 'r') as file:
+    next(file) # skip csv header (first row with column titles)
+    reader = csv.reader(file)
+    for row in reader:
+        # code to process and INSERT the row goes here
+        year = int(row[8]) # the elements in row are strings so we need to convert to int
+        month = int(row[9])
+        day = int(row[10])
+        date = datetime.date(year, month, day)
+        row = row[:-3]
+        row.append(date)
+        cur.execute(
+            """
+            INSERT INTO ign_reviews VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """, row)
+conn.commit()
+conn.close()

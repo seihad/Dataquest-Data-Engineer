@@ -12,4 +12,4 @@
 --     release_day int4
 -- );
 
-SELECT * from ign_reviews
+SELECT * FROM ign_reviews LIMIT 10;
