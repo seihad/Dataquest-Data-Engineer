@@ -98,15 +98,15 @@
 '''
 10.Copying the data
 '''
-import psycopg2
-import csv
-conn = psycopg2.connect("dbname=dq user=dq password=dq")
-cur = conn.cursor()
-with open('user_accounts.csv', 'r') as file:
-    next(file) # skip csv header (first row with column titles)
-    reader = csv.reader(file)
-    for row in reader:
-        cur.execute("INSERT INTO users VALUES(%s, %s, %s, %s);", row)
+# import psycopg2
+# import csv
+# conn = psycopg2.connect("dbname=dq user=dq password=dq")
+# cur = conn.cursor()
+# with open('user_accounts.csv', 'r') as file:
+#     next(file) # skip csv header (first row with column titles)
+#     reader = csv.reader(file)
+#     for row in reader:
+#         cur.execute("INSERT INTO users VALUES(%s, %s, %s, %s);", row)
         
-conn.commit()
-conn.close()
+# conn.commit()
+# conn.close()
