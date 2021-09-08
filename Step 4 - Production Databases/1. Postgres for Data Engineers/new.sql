@@ -12,4 +12,4 @@
 --     release_day int4
 -- );
 
-SELECT * FROM users;
+SELECT * FROM ign_restricted LIMIT 10;
