@@ -102,7 +102,3 @@
 # """)
 # query_plan = cur.fetchone()
 # print(json.dumps(query_plan, indent=2))
-
-'''
-
-'''
