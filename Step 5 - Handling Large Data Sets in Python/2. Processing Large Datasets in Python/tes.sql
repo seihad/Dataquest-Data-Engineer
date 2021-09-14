@@ -1,0 +1,1 @@
+SELECT * FROM exhibitions LIMIT 10;
