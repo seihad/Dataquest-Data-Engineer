@@ -78,6 +78,9 @@
 # status = response.status_code
 
 
-# 10.Further Exploration
-
+# # 10.Further Exploration
+# payload = {"dir": 1, "id": "d16y4ry"}
+# headers = {"Authorization": "bearer 13426216-4U1ckno9J5AiK72VRbpEeBaMSKk", "User-Agent": "Dataquest/1.0"}
+# response = requests.post("https://oauth.reddit.com/api/vote", json=payload, headers=headers)
+# status = response.status_code
 
