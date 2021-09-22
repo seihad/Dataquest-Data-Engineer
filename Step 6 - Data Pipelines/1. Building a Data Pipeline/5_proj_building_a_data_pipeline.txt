@@ -1,0 +1,3 @@
+bulding a data pipeline
+
+https://github.com/dataquestio/solutions/blob/master/Mission267Solutions.ipynb
